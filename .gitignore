@@ -221,3 +221,9 @@ __marimo__/
 
 # MacOS
 .DS_Store
+
+# result file
+result.csv
+
+# comparison file
+comparison.csv
