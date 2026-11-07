@@ -224,3 +224,6 @@ __marimo__/
 
 # result file
 result.csv
+
+# comparison file
+comparison.csv
