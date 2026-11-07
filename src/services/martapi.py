@@ -62,7 +62,27 @@ class Mart:
         return sorted(list(df["APP_ID"].unique()))
 
     def segments(self) -> Iterable[dict]:
-        pass
+        return self.storage[
+            [
+                "APP_ID",
+                "DECISION_BEFORE",
+                "DECISION_AFTER",
+                "DECISION_CHANGED",
+                "PRODUCTS",
+                "TOP_OFFER_BEFORE",
+                "TOP_OFFER_AFTER",
+                "PARTNER_TYPE",
+                "ROUTING_METHOD",
+                "PD_MODEL_BEFORE",
+                "PD_MODEL_AFTER",
+                "CUTOFF_BEFORE",
+                "CUTOFF_AFTER",
+                "REJECT_REASON_BEFORE",
+                "REJECT_REASON_AFTER",
+                "SCORE_OKB_BEFORE",
+                "SCORE_OKB_AFTER",
+            ]
+        ]
 
     def total_apps(self) -> int:
         return len(self.storage["APP_ID"].unique())
