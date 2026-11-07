@@ -120,7 +120,7 @@ def convert_json(data, source):
 
         rows.append({
             "APP_ID": scalar_to_string(app_id),
-            "SOURCE": source,
+            "SOURCE": source.name,
             "PREFIX": prefix,
             "CLASS": class_name,
             "SUFFIX": suffix,
