@@ -171,34 +171,34 @@ def convert_json(data, source):
     walk(data)
     return rows
 
+if __name__ == "__main__":  
+    all_rows = []
 
-all_rows = []
+    for folder_name in INPUT_DIRS:
+        folder = Path(folder_name)
 
-for folder_name in INPUT_DIRS:
-    folder = Path(folder_name)
+        if not folder.exists():
+            print(f"Папка не найдена, пропускаю: {folder}")
+            continue
 
-    if not folder.exists():
-        print(f"Папка не найдена, пропускаю: {folder}")
-        continue
+        for json_file in folder.rglob("*.json"):
+            try:
+                with json_file.open("r", encoding="utf-8-sig") as file:
+                    data = json.load(file)
 
-    for json_file in folder.rglob("*.json"):
-        try:
-            with json_file.open("r", encoding="utf-8-sig") as file:
-                data = json.load(file)
+                all_rows.extend(convert_json(data, folder_name))
 
-            all_rows.extend(convert_json(data, folder_name))
+            except (json.JSONDecodeError, OSError) as error:
+                print(f"Не удалось обработать {json_file}: {error}")
 
-        except (json.JSONDecodeError, OSError) as error:
-            print(f"Не удалось обработать {json_file}: {error}")
+    with open(OUTPUT_FILE, "w", newline="", encoding="utf-8-sig") as file:
+        writer = csv.DictWriter(
+            file,
+            fieldnames=COLUMNS,
+            delimiter=";",
+            extrasaction="ignore",
+        )
+        writer.writeheader()
+        writer.writerows(all_rows)
 
-with open(OUTPUT_FILE, "w", newline="", encoding="utf-8-sig") as file:
-    writer = csv.DictWriter(
-        file,
-        fieldnames=COLUMNS,
-        delimiter=";",
-        extrasaction="ignore",
-    )
-    writer.writeheader()
-    writer.writerows(all_rows)
-
-print(f"Готово: {OUTPUT_FILE}, строк: {len(all_rows)}")
+    print(f"Готово: {OUTPUT_FILE}, строк: {len(all_rows)}")
